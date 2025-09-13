@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منشئ إشعارات بنك الخرطوم</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .controls {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .description {
+            text-align: center;
+            color: #555;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.2);
+        }
+        
+        .color-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .color-option.selected {
+            border-color: #1e3a8a;
+            transform: scale(1.1);
+        }
+        
+        .color-white {
+            background: linear-gradient(to bottom, #ffffff, #f5f5f5);
+            border: 1px solid #ddd;
+        }
+        
+        .color-green {
+            background: linear-gradient(to bottom, #e2f3ea, #c5e6d4);
+            border: 1px solid #a3d4b8;
+        }
+        
+        button {
+            background-color: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #2d4ba0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 58, 138, 0.3);
+        }
+        
+        .preview-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .preview-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .notification {
+            width: 100%;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .notification-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .bank-logo {
+            font-weight: bold;
+            font-size: 20px;
+            color: #1e3a8a;
+        }
+        
+        .notification-time {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        .notification-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .notification-details {
+            margin-bottom: 20px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        
+        .detail-label {
+            opacity: 0.7;
+        }
+        
+        .amount {
+            font-weight: bold;
+            font-size: 22px;
+            margin: 20px 0;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .notification-footer {
+            font-size: 14px;
+            text-align: center;
+            opacity: 0.7;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-ar {
+            direction: rtl;
+        }
+        
+        .language-en {
+            direction: ltr;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .controls, .preview-container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>منشئ إشعارات تحويل بنك الخرطوم</h1>
+    <p class="description">قم بإنشاء إشعارات تحويل بنكية مخصصة وحملها كصورة</p>
+    
+    <div class="container">
+        <div class="controls">
+            <div class="form-group">
+                <label for="language">اللغة:</label>
+                <select id="language">
+                    <option value="ar">العربية</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>لون الإشعار:</label>
+                <div class="color-options">
+                    <div class="color-option color-white selected" data-color="white"></div>
+                    <div class="color-option color-green" data-color="green"></div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="amount" id="amountLabel">المبلغ:</label>
+                <input type="text" id="amount" value="1,250.00 SDG">
+            </div>
+            
+            <div class="form-group">
+                <label for="transactionType" id="transactionTypeLabel">نوع المعاملة:</label>
+                <input type="text" id="transactionType" value="تحويل أموال">
+            </div>
+            
+            <div class="form-group">
+                <label for="account" id="accountLabel">الحساب:</label>
+                <input type="text" id="account" value="حساب توفير - ***4587">
+            </div>
+            
+            <div class="form-group">
+                <label for="date" id="dateLabel">التاريخ والوقت:</label>
+                <input type="text" id="date" value="2023-10-15 14:30:25">
+            </div>
+            
+            <div class="form-group">
+                <label for="balance" id="balanceLabel">الرصيد المتبقي:</label>
+                <input type="text" id="balance" value="18,450.00 SDG">
+            </div>
+            
+            <div class="form-group">
+                <label for="reference" id="referenceLabel">رقم المرجع:</label>
+                <input type="text" id="reference" value="REF-7890-4567-1234">
+            </div>
+            
+            <button id="downloadBtn">تحميل الإشعار كصورة</button>
+        </div>
+        
+        <div class="preview-container">
+            <div class="preview-title">معاينة الإشعار</div>
+            <div id="notification" class="notification language-ar">
+                <div class="notification-header">
+                    <div class="bank-logo">بنك الخرطوم</div>
+                    <div class="notification-time" id="timeDisplay">14:30</div>
+                </div>
+                
+                <div class="notification-title" id="titleDisplay">تمت عملية التحويل بنجاح</div>
+                
+                <div class="amount" id="amountDisplay">1,250.00 SDG</div>
+                
+                <div class="notification-details">
+                    <div class="detail-row">
+                        <span class="detail-label" id="typeLabelDisplay">نوع المعاملة:</span>
+                        <span id="typeDisplay">تحويل أموال</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label" id="accountLabelDisplay">الحساب:</span>
+                        <span id="accountDisplay">حساب توفير - ***4587</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label" id="dateLabelDisplay">التاريخ والوقت:</span>
+                        <span id="dateDisplay">2023-10-15 14:30:25</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label" id="balanceLabelDisplay">الرصيد المتبقي:</span>
+                        <span id="balanceDisplay">18,450.00 SDG</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label" id="referenceLabelDisplay">رقم المرجع:</span>
+                        <span id="referenceDisplay">REF-7890-4567-1234</span>
+                    </div>
+                </div>
+                
+                <div class="notification-footer">
+                    <div>بنك الخرطوم - خدمة العملاء: 15400</div>
+                    <div id="footerText">لا ترد على هذه الرسالة إذا لم تقم بهذه العملية</div>
+                </div>
+            </div>
+            
+            <p>سيتم تحديث المعاينة تلقائياً عند إجراء التعديلات</p>
+        </div>
+    </div>
+
+    <script>
+        // عناصر DOM
+        const languageSelect = document.getElementById('language');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const notification = document.getElementById('notification');
+        const colorOptions = document.querySelectorAll('.color-option');
+        
+        // عناصر الإدخال
+        const inputs = [
+            'amount', 'transactionType', 'account', 'date', 'balance', 'reference'
+        ];
+        
+        // عناصر العرض
+        const displayElements = {
+            amount: document.getElementById('amountDisplay'),
+            type: document.getElementById('typeDisplay'),
+            account: document.getElementById('accountDisplay'),
+            date: document.getElementById('dateDisplay'),
+            balance: document.getElementById('balanceDisplay'),
+            reference: document.getElementById('referenceDisplay'),
+            time: document.getElementById('timeDisplay'),
+            title: document.getElementById('titleDisplay')
+        };
+        
+        // عناصر التسميات
+        const labelElements = {
+            amount: document.getElementById('amountLabel'),
+            type: document.getElementById('transactionTypeLabel'),
+            account: document.getElementById('accountLabel'),
+            date: document.getElementById('dateLabel'),
+            balance: document.getElementById('balanceLabel'),
+            reference: document.getElementById('referenceLabel')
+        };
+        
+        // النصوص حسب اللغة
+        const texts = {
+            ar: {
+                title: "تمت عملية التحويل بنجاح",
+                amountLabel: "المبلغ:",
+                typeLabel: "نوع المعاملة:",
+                accountLabel: "الحساب:",
+                dateLabel: "التاريخ والوقت:",
+                balanceLabel: "الرصيد المتبقي:",
+                referenceLabel: "رقم المرجع:",
+                footer: "لا ترد على هذه الرسالة إذا لم تقم بهذه العملية"
+            },
+            en: {
+                title: "Transfer completed successfully",
+                amountLabel: "Amount:",
+                typeLabel: "Transaction Type:",
+                accountLabel: "Account:",
+                dateLabel: "Date & Time:",
+                balanceLabel: "Remaining Balance:",
+                referenceLabel: "Reference Number:",
+                footer: "Do not reply to this message if you did not perform this transaction"
+            }
+        };
+        
+        // تهيئة الصفحة
+        function init() {
+            // إضافة مستمعي الأحداث
+            languageSelect.addEventListener('change', updateLanguage);
+            downloadBtn.addEventListener('click', downloadAsImage);
+            
+            // إضافة مستمعي الأحداث لأزرار الألوان
+            colorOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    colorOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    updateColor(option.getAttribute('data-color'));
+                });
+            });
+            
+            // إضافة مستمعي الأحداث لحقول الإدخال
+            inputs.forEach(inputId => {
+                const input = document.getElementById(inputId);
+                input.addEventListener('input', updatePreview);
+            });
+            
+            // تعيين الوقت الحالي
+            updateTime();
+            
+            // تحديث المعاينة أول مرة
+            updatePreview();
+        }
+        
+        // تحديث الوقت
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            document.getElementById('timeDisplay').textContent = timeString;
+        }
+        
+        // تحديث اللغة
+        function updateLanguage() {
+            const lang = languageSelect.value;
+            const isArabic = lang === 'ar';
+            
+            // تغيير اتجاه الصفحة
+            document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
+            document.documentElement.lang = lang;
+            
+            // تحديث فئة الإشعار للغة
+            notification.className = `notification language-${lang}`;
+            
+            // تحديث النصوص
+            const langTexts = texts[lang];
+            displayElements.title.textContent = langTexts.title;
+            
+            // تحديث التسميات
+            labelElements.amount.textContent = langTexts.amountLabel;
+            labelElements.type.textContent = langTexts.typeLabel;
+            labelElements.account.textContent = langTexts.accountLabel;
+            labelElements.date.textContent = langTexts.dateLabel;
+            labelElements.balance.textContent = langTexts.balanceLabel;
+            labelElements.reference.textContent = langTexts.referenceLabel;
+            
+            document.getElementById('footerText').textContent = langTexts.footer;
+            
+            // تحديث نص زر التحميل
+            downloadBtn.textContent = isArabic ? 'تحميل الإشعار كصورة' : 'Download Notification as Image';
+            
+            // تحديث العنوان والوصف
+            document.querySelector('h1').textContent = isArabic ? 
+                'منشئ إشعارات تحويل بنك الخرطوم' : 'Bank of Khartoum Transfer Notification Generator';
+            
+            document.querySelector('.description').textContent = isArabic ? 
+                'قم بإنشاء إشعارات تحويل بنكية مخصصة وحملها كصورة' : 
+                'Create custom bank transfer notifications and download them as images';
+                
+            document.querySelector('.preview-title').textContent = isArabic ? 
+                'معاينة الإشعار' : 'Notification Preview';
+                
+            document.querySelector('.preview-container p').textContent = isArabic ? 
+                'سيتم تحديث المعاينة تلقائياً عند إجراء التعديلات' : 
+                'Preview will update automatically when changes are made';
+        }
+        
+        // تحديث اللون
+        function updateColor(color) {
+            notification.style.background = color === 'white' 
+                ? 'linear-gradient(to bottom, #ffffff, #f5f5f5)' 
+                : 'linear-gradient(to bottom, #e2f3ea, #c5e6d4)';
+                
+            notification.style.border = color === 'white' 
+                ? '1px solid #ddd' 
+                : '1px solid #a3d4b8';
+                
+            notification.style.color = color === 'white' ? '#333' : '#1a5332';
+        }
+        
+        // تحديث المعاينة
+        function updatePreview() {
+            // تحديث قيم العرض من قيم الإدخال
+            displayElements.amount.textContent = document.getElementById('amount').value;
+            displayElements.type.textContent = document.getElementById('transactionType').value;
+            displayElements.account.textContent = document.getElementById('account').value;
+            displayElements.date.textContent = document.getElementById('date').value;
+            displayElements.balance.textContent = document.getElementById('balance').value;
+            displayElements.reference.textContent = document.getElementById('reference').value;
+            
+            // تحديث الوقت
+            updateTime();
+        }
+        
+        // تحميل كصورة
+        function downloadAsImage() {
+            // إنشاء عنصر canvas
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            const notification = document.getElementById('notification');
+            
+            // تعيين أبعاد canvas بناءً على حجم الإشعار
+            canvas.width = notification.offsetWidth;
+            canvas.height = notification.offsetHeight;
+            
+            // تعيين خلفية بيضاء للصورة
+            context.fillStyle = '#ffffff';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // رسم محتويات الإشعار على canvas
+            const data = new XMLSerializer().serializeToString(notification);
+            const DOMURL = window.URL || window.webkitURL || window;
+            const img = new Image();
+            const svgBlob = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
+            const url = DOMURL.createObjectURL(svgBlob);
+            
+            img.onload = function () {
+                context.drawImage(img, 0, 0);
+                DOMURL.revokeObjectURL(url);
+                
+                // إنشاء رابط للتحميل
+                const link = document.createElement('a');
+                link.download = `bank-notification-${new Date().getTime()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            };
+            
+            img.src = url;
+        }
+        
+        // تهيئة التطبيق عند تحميل الصفحة
+        window.onload = init;
+    </script>
+</body>
+  </html>
