@@ -3,42 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منشئ إشعارات بنك الخرطوم</title>
+    <title>منشئ إشعارات بنك الخرطوم - مطابق للنموذج</title>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            background-color: #f0f2f5;
             padding: 20px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
         
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             width: 100%;
         }
         
         h1 {
             color: #1e3a8a;
             margin-bottom: 10px;
-            font-size: 32px;
-        }
-        
-        .description {
-            color: #555;
-            font-size: 18px;
-            max-width: 800px;
-            margin: 0 auto;
+            font-size: 28px;
         }
         
         .container {
@@ -46,106 +39,89 @@
             max-width: 1200px;
             display: flex;
             flex-wrap: wrap;
-            gap: 30px;
+            gap: 25px;
             justify-content: center;
         }
         
         .controls {
             background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 500px;
+            max-width: 450px;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 600;
             color: #333;
+            font-size: 14px;
         }
         
-        input, select, textarea {
+        input, select {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #1e3a8a;
-            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.2);
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
         }
         
         .notification-type {
             display: flex;
-            gap: 15px;
-            margin-top: 10px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
         
         .type-btn {
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             text-align: center;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s ease;
+            font-size: 14px;
+            border: 2px solid;
         }
         
         .type-white {
             background: white;
-            border: 2px solid #1e3a8a;
+            border-color: #1e3a8a;
             color: #1e3a8a;
         }
         
         .type-green {
-            background: #e2f3ea;
-            border: 2px solid #2e8b57;
-            color: #2e8b57;
+            background: #e8f5e9;
+            border-color: #2e7d32;
+            color: #2e7d32;
         }
         
         .type-btn.active {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .type-white.active {
             background: #1e3a8a;
             color: white;
         }
         
         .type-green.active {
-            background: #2e8b57;
+            background: #2e7d32;
             color: white;
         }
         
-        button {
+        button.download-btn {
             background-color: #1e3a8a;
             color: white;
             border: none;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 15px;
             font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        button:hover {
-            background-color: #2d4ba0;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(30, 58, 138, 0.3);
         }
         
         .preview-container {
@@ -156,121 +132,93 @@
             max-width: 400px;
         }
         
-        .preview-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #333;
-            text-align: center;
-        }
-        
         .notification {
             width: 100%;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             margin-bottom: 20px;
-            transition: all 0.3s ease;
+            font-family: Arial, sans-serif;
+            line-height: 1.5;
         }
         
         .notification-white {
             background: white;
-            color: #333;
+            color: #000;
             border: 1px solid #ddd;
         }
         
         .notification-green {
-            background: linear-gradient(to bottom, #e2f3ea, #c5e6d4);
-            color: #1a5332;
-            border: 1px solid #a3d4b8;
-        }
-        
-        .notification-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-        
-        .bank-logo {
-            font-weight: bold;
-            font-size: 20px;
-            color: #1e3a8a;
-        }
-        
-        .notification-time {
-            font-size: 14px;
-            opacity: 0.7;
+            background: #e8f5e9;
+            color: #000;
+            border: 1px solid #c8e6c9;
         }
         
         .notification-title {
             font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 20px;
+            font-size: 20px;
             text-align: center;
+            margin-bottom: 20px;
+            color: #1e3a8a;
         }
         
-        .transaction-details {
-            margin-bottom: 20px;
+        .divider {
+            height: 1px;
+            background-color: #ddd;
+            margin: 15px 0;
+        }
+        
+        .detail-section {
+            margin-bottom: 15px;
         }
         
         .detail-row {
+            margin-bottom: 8px;
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 16px;
         }
         
         .detail-label {
-            opacity: 0.7;
-            font-weight: 600;
-        }
-        
-        .amount-section {
             font-weight: bold;
-            font-size: 22px;
-            margin: 20px 0;
-            text-align: center;
-            padding: 10px;
-            border-radius: 8px;
-            background-color: rgba(0, 0, 0, 0.05);
+            min-width: 120px;
         }
         
-        .buttons-container {
+        .transaction-number {
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .amount-display {
+            font-weight: bold;
+            font-size: 20px;
+            text-align: center;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 6px;
+        }
+        
+        .buttons-row {
             display: flex;
             justify-content: space-between;
             margin-top: 20px;
         }
         
         .action-btn {
-            padding: 10px 15px;
-            border-radius: 8px;
+            padding: 8px 15px;
+            border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .white-btn {
-            background: #f0f0f0;
-            color: #333;
             border: 1px solid #ccc;
+            background: #f5f5f5;
         }
         
-        .green-btn {
-            background: #2e8b57;
-            color: white;
-            border: none;
-        }
-        
-        .notification-footer {
-            font-size: 14px;
+        .footer {
             text-align: center;
-            opacity: 0.7;
             margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            color: #666;
         }
         
         .hidden {
@@ -291,18 +239,15 @@
 </head>
 <body>
     <div class="header">
-        <h1>منشئ إشعارات تحويل بنك الخرطوم</h1>
-        <p class="description">قم بإنشاء إشعارات تحويل بنكية مخصصة مشابهة تمامًا للإشعارات الأصلية</p>
+        <h1>منشئ إشعارات بنك الخرطوم</h1>
+        <p>أنشئ إشعارات مطابقة تمامًا للنماذج الرسمية</p>
     </div>
     
     <div class="container">
         <div class="controls">
-            <div class="form-group">
-                <label>نوع الإشعار:</label>
-                <div class="notification-type">
-                    <div class="type-btn type-white active" data-type="white">إشعار أبيض</div>
-                    <div class="type-btn type-green" data-type="green">إشعار أخضر</div>
-                </div>
+            <div class="notification-type">
+                <div class="type-btn type-white active" data-type="white">إشعار أبيض</div>
+                <div class="type-btn type-green" data-type="green">إشعار أخضر</div>
             </div>
             
             <div class="form-group">
@@ -350,73 +295,89 @@
                 <input type="text" id="comment" value="تحويل خاطئ">
             </div>
             
-            <button id="downloadBtn">تحميل الإشعار كصورة</button>
+            <button class="download-btn" id="downloadBtn">تحميل الإشعار كصورة</button>
         </div>
         
         <div class="preview-container">
-            <div class="preview-title">معاينة الإشعار</div>
-            
             <!-- الإشعار الأبيض -->
             <div id="whiteNotification" class="notification notification-white">
-                <div class="notification-header">
-                    <div class="bank-logo">بنك الخرطوم</div>
-                    <div class="notification-time" id="whiteTimeDisplay">09:08</div>
-                </div>
-                
                 <div class="notification-title">تفاصيل المعاملة</div>
                 
-                <div class="transaction-details">
+                <div class="detail-section">
                     <div class="detail-row">
-                        <span class="detail-label">رقم العملية:</span>
-                        <span id="whiteTransactionNumberDisplay">20013555809</span>
+                        <span class="detail-label">رقم العملية</span>
                     </div>
-                    
                     <div class="detail-row">
-                        <span class="detail-label">التاريخ والوقت:</span>
-                        <span id="whiteDateDisplay">01-أكتوبر-2024 09:08:18</span>
+                        <span class="detail-label">- التاريخ والوقت</span>
                     </div>
-                    
                     <div class="detail-row">
-                        <span class="detail-label">نوع العملية:</span>
-                        <span id="whiteTypeDisplay">تحويل إلى حساب آخر</span>
+                        <span class="detail-label">- تحويل إلى حساب آخر</span>
                     </div>
                 </div>
                 
-                <div class="amount-section" id="whiteAmountDisplay">150,000.00</div>
+                <div class="divider"></div>
                 
-                <div class="transaction-details">
+                <div class="detail-section">
                     <div class="detail-row">
-                        <span class="detail-label">من:</span>
-                        <span id="whiteFromDisplay">0153 1168 3174 0001</span>
+                        <span class="detail-label">نوع العملية</span>
                     </div>
-                    
                     <div class="detail-row">
-                        <span class="detail-label">إلى:</span>
-                        <span id="whiteToDisplay">0593 1161 8884 0001</span>
+                        <span class="detail-label">- المبلغ</span>
                     </div>
-                    
                     <div class="detail-row">
-                        <span class="detail-label">الحالة:</span>
-                        <span>نجاح</span>
+                        <span class="detail-label">- من</span>
                     </div>
-                    
                     <div class="detail-row">
-                        <span class="detail-label">اسم المرسل إليه:</span>
-                        <span id="whiteRecipientDisplay">أحمد عبد الباقي أحمد حمد</span>
+                        <span class="detail-label">- إلى</span>
                     </div>
-                    
                     <div class="detail-row">
-                        <span class="detail-label">التعليق:</span>
-                        <span id="whiteCommentDisplay">تحويل خاطئ</span>
+                        <span class="detail-label">- الحالة</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">- اسم المرسل إليه</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">- التعليق</span>
                     </div>
                 </div>
                 
-                <div class="buttons-container">
-                    <div class="action-btn white-btn">تذكير</div>
-                    <div class="action-btn white-btn">تحويل خاطئ</div>
+                <div class="divider"></div>
+                
+                <div class="transaction-number" id="whiteTransactionNumberDisplay">20013555809</div>
+                
+                <div class="divider"></div>
+                
+                <div class="detail-section">
+                    <div id="whiteDateDisplay">01-أكتوبر-2024 09:08:18</div>
                 </div>
                 
-                <div class="notification-footer">
+                <div class="divider"></div>
+                
+                <div class="detail-section">
+                    <div>تحويل إلى حساب آخر</div>
+                    <div class="amount-display" id="whiteAmountDisplay">150,000.00</div>
+                    <div id="whiteFromDisplay">0153 1168 3174 0001</div>
+                    <div id="whiteToDisplay">0593 1161 8884 0001</div>
+                    <div>نجاح</div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <div class="detail-section">
+                    <div id="whiteRecipientDisplay">أحمد عبد الباقي أحمد حمد</div>
+                    <div id="whiteCommentDisplay">تحويل خاطئ</div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <div class="buttons-row">
+                    <div class="action-btn">تذكير</div>
+                    <div class="action-btn">تحويل خاطئ</div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <div class="footer">
                     <div>بنك الخرطوم/بتكك حساب</div>
                     <div>2024©</div>
                 </div>
@@ -424,113 +385,83 @@
             
             <!-- الإشعار الأخضر -->
             <div id="greenNotification" class="notification notification-green hidden">
-                <div class="notification-header">
-                    <div class="bank-logo">بنك الخرطوم</div>
-                    <div class="notification-time" id="greenTimeDisplay">14:35</div>
-                </div>
-                
                 <div class="notification-title">تحويلات</div>
                 
-                <div class="transaction-details">
+                <div class="detail-section">
                     <div class="detail-row">
-                        <span class="detail-label">رقم العملية:</span>
+                        <span class="detail-label">رقم العملية</span>
                         <span id="greenTransactionNumberDisplay">20013696390</span>
                     </div>
                     
                     <div class="detail-row">
-                        <span class="detail-label">التاريخ والوقت:</span>
+                        <span class="detail-label">التاريخ و الزمن</span>
                         <span id="greenDateDisplay">12-أكتوبر-2024 14:35:27</span>
                     </div>
                     
                     <div class="detail-row">
-                        <span class="detail-label">من حساب:</span>
+                        <span class="detail-label">من حساب</span>
                         <span id="greenFromDisplay">0153 1168 3174 0001</span>
                     </div>
                     
                     <div class="detail-row">
-                        <span class="detail-label">إلى حساب:</span>
+                        <span class="detail-label">الى حساب</span>
                         <span id="greenToDisplay">0173 1346 5501 0001</span>
                     </div>
                     
                     <div class="detail-row">
-                        <span class="detail-label">اسم المرسل إليه:</span>
+                        <span class="detail-label">اسم المرسل إليه</span>
                         <span id="greenRecipientDisplay">لاء الحاج الطيب عبدالسلام</span>
                     </div>
                     
                     <div class="detail-row">
-                        <span class="detail-label">رقم الموبايل:</span>
+                        <span class="detail-label">رقم الموبايل</span>
                         <span id="greenMobileDisplay">N/A</span>
                     </div>
                     
                     <div class="detail-row">
-                        <span class="detail-label">التعليق:</span>
+                        <span class="detail-label">التعليق</span>
                         <span id="greenCommentDisplay">أول جلسة</span>
                     </div>
                     
                     <div class="detail-row">
-                        <span class="detail-label">المبلغ:</span>
-                        <span id="greenAmountDisplay" style="font-weight: bold;">15,000.00</span>
+                        <span class="detail-label">المبلغ</span>
+                        <span id="greenAmountDisplay">15,000.00</span>
                     </div>
                 </div>
                 
-                <div class="buttons-container">
-                    <div class="action-btn green-btn">موافق</div>
+                <div class="divider"></div>
+                
+                <div class="buttons-row">
+                    <div class="action-btn">موافق</div>
                 </div>
                 
-                <div class="notification-footer">
+                <div class="divider"></div>
+                
+                <div class="footer">
                     <div>بنك الخرطوم/ينك حساب</div>
                     <div>2024©</div>
                 </div>
             </div>
-            
-            <p>سيتم تحديث المعاينة تلقائياً عند إجراء التعديلات</p>
         </div>
     </div>
 
     <script>
-        // عناصر DOM
-        const typeButtons = document.querySelectorAll('.type-btn');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const whiteNotification = document.getElementById('whiteNotification');
-        const greenNotification = document.getElementById('greenNotification');
-        const mobileNumberGroup = document.getElementById('mobileNumberGroup');
-        const recipientNameGroup = document.getElementById('recipientNameGroup');
-        
-        // عناصر الإدخال
-        const inputs = [
-            'transactionNumber', 'transactionDate', 'transactionType', 
-            'amount', 'fromAccount', 'toAccount', 'recipientName', 
-            'mobileNumber', 'comment'
-        ];
-        
-        // عناصر العرض للإشعار الأبيض
-        const whiteDisplayElements = {
-            transactionNumber: document.getElementById('whiteTransactionNumberDisplay'),
-            date: document.getElementById('whiteDateDisplay'),
-            type: document.getElementById('whiteTypeDisplay'),
-            amount: document.getElementById('whiteAmountDisplay'),
-            from: document.getElementById('whiteFromDisplay'),
-            to: document.getElementById('whiteToDisplay'),
-            recipient: document.getElementById('whiteRecipientDisplay'),
-            comment: document.getElementById('whiteCommentDisplay'),
-            time: document.getElementById('whiteTimeDisplay')
-        };
-        
-        // عناصر العرض للإشعار الأخضر
-        const greenDisplayElements = {
-            transactionNumber: document.getElementById('greenTransactionNumberDisplay'),
-            date: document.getElementById('greenDateDisplay'),
-            from: document.getElementById('greenFromDisplay'),
-            to: document.getElementById('greenToDisplay'),
-            recipient: document.getElementById('greenRecipientDisplay'),
-            mobile: document.getElementById('greenMobileDisplay'),
-            comment: document.getElementById('greenCommentDisplay'),
-            amount: document.getElementById('greenAmountDisplay'),
-            time: document.getElementById('greenTimeDisplay')
-        };
-        
-        // تهيئة الصفحة
-        function init() {
+        document.addEventListener('DOMContentLoaded', function() {
+            // عناصر DOM
+            const typeButtons = document.querySelectorAll('.type-btn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const whiteNotification = document.getElementById('whiteNotification');
+            const greenNotification = document.getElementById('greenNotification');
+            const mobileNumberGroup = document.getElementById('mobileNumberGroup');
+            const recipientNameGroup = document.getElementById('recipientNameGroup');
+            
+            // عناصر الإدخال
+            const inputs = [
+                'transactionNumber', 'transactionDate', 'transactionType', 
+                'amount', 'fromAccount', 'toAccount', 'recipientName', 
+                'mobileNumber', 'comment'
+            ];
+            
             // إضافة مستمعي الأحداث لأزرار النوع
             typeButtons.forEach(button => {
                 button.addEventListener('click', () => {
@@ -551,77 +482,68 @@
             // إضافة مستمع الأحداث لزر التحميل
             downloadBtn.addEventListener('click', downloadAsImage);
             
-            // تعيين الوقت الحالي
-            updateTime();
-            
             // تحديث المعاينة أول مرة
             updatePreview();
-        }
-        
-        // تحديث نوع الإشعار
-        function updateNotificationType(type) {
-            if (type === 'white') {
-                whiteNotification.classList.remove('hidden');
-                greenNotification.classList.add('hidden');
-                mobileNumberGroup.classList.add('hidden');
-                recipientNameGroup.classList.remove('hidden');
-            } else {
-                whiteNotification.classList.add('hidden');
-                greenNotification.classList.remove('hidden');
-                mobileNumberGroup.classList.remove('hidden');
-                recipientNameGroup.classList.add('hidden');
+            
+            // تحديث نوع الإشعار
+            function updateNotificationType(type) {
+                if (type === 'white') {
+                    whiteNotification.classList.remove('hidden');
+                    greenNotification.classList.add('hidden');
+                    mobileNumberGroup.classList.add('hidden');
+                    recipientNameGroup.classList.remove('hidden');
+                } else {
+                    whiteNotification.classList.add('hidden');
+                    greenNotification.classList.remove('hidden');
+                    mobileNumberGroup.classList.remove('hidden');
+                    recipientNameGroup.classList.add('hidden');
+                    
+                    // تحديث القيم الافتراضية للإشعار الأخضر
+                    document.getElementById('transactionNumber').value = '20013696390';
+                    document.getElementById('transactionDate').value = '12-أكتوبر-2024 14:35:27';
+                    document.getElementById('toAccount').value = '0173 1346 5501 0001';
+                    document.getElementById('recipientName').value = 'لاء الحاج الطيب عبدالسلام';
+                    document.getElementById('comment').value = 'أول جلسة';
+                    document.getElementById('amount').value = '15,000.00';
+                }
+                updatePreview();
             }
-        }
-        
-        // تحديث الوقت
-        function updateTime() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            document.getElementById('whiteTimeDisplay').textContent = timeString;
-            document.getElementById('greenTimeDisplay').textContent = timeString;
-        }
-        
-        // تحديث المعاينة
-        function updatePreview() {
-            // تحديث قيم العرض من قيم الإدخال للإشعار الأبيض
-            whiteDisplayElements.transactionNumber.textContent = document.getElementById('transactionNumber').value;
-            whiteDisplayElements.date.textContent = document.getElementById('transactionDate').value;
-            whiteDisplayElements.type.textContent = document.getElementById('transactionType').value;
-            whiteDisplayElements.amount.textContent = document.getElementById('amount').value;
-            whiteDisplayElements.from.textContent = document.getElementById('fromAccount').value;
-            whiteDisplayElements.to.textContent = document.getElementById('toAccount').value;
-            whiteDisplayElements.recipient.textContent = document.getElementById('recipientName').value;
-            whiteDisplayElements.comment.textContent = document.getElementById('comment').value;
             
-            // تحديث قيم العرض من قيم الإدخال للإشعار الأخضر
-            greenDisplayElements.transactionNumber.textContent = document.getElementById('transactionNumber').value;
-            greenDisplayElements.date.textContent = document.getElementById('transactionDate').value;
-            greenDisplayElements.from.textContent = document.getElementById('fromAccount').value;
-            greenDisplayElements.to.textContent = document.getElementById('toAccount').value;
-            greenDisplayElements.recipient.textContent = document.getElementById('recipientName').value;
-            greenDisplayElements.mobile.textContent = document.getElementById('mobileNumber').value;
-            greenDisplayElements.comment.textContent = document.getElementById('comment').value;
-            greenDisplayElements.amount.textContent = document.getElementById('amount').value;
+            // تحديث المعاينة
+            function updatePreview() {
+                // تحديث قيم العرض من قيم الإدخال للإشعار الأبيض
+                document.getElementById('whiteTransactionNumberDisplay').textContent = document.getElementById('transactionNumber').value;
+                document.getElementById('whiteDateDisplay').textContent = document.getElementById('transactionDate').value;
+                document.getElementById('whiteAmountDisplay').textContent = document.getElementById('amount').value;
+                document.getElementById('whiteFromDisplay').textContent = document.getElementById('fromAccount').value;
+                document.getElementById('whiteToDisplay').textContent = document.getElementById('toAccount').value;
+                document.getElementById('whiteRecipientDisplay').textContent = document.getElementById('recipientName').value;
+                document.getElementById('whiteCommentDisplay').textContent = document.getElementById('comment').value;
+                
+                // تحديث قيم العرض من قيم الإدخال للإشعار الأخضر
+                document.getElementById('greenTransactionNumberDisplay').textContent = document.getElementById('transactionNumber').value;
+                document.getElementById('greenDateDisplay').textContent = document.getElementById('transactionDate').value;
+                document.getElementById('greenFromDisplay').textContent = document.getElementById('fromAccount').value;
+                document.getElementById('greenToDisplay').textContent = document.getElementById('toAccount').value;
+                document.getElementById('greenRecipientDisplay').textContent = document.getElementById('recipientName').value;
+                document.getElementById('greenMobileDisplay').textContent = document.getElementById('mobileNumber').value;
+                document.getElementById('greenCommentDisplay').textContent = document.getElementById('comment').value;
+                document.getElementById('greenAmountDisplay').textContent = document.getElementById('amount').value;
+            }
             
-            // تحديث الوقت
-            updateTime();
-        }
-        
-        // تحميل كصورة
-        function downloadAsImage() {
-            const activeNotification = whiteNotification.classList.contains('hidden') ? greenNotification : whiteNotification;
-            
-            html2canvas(activeNotification).then(canvas => {
-                const link = document.createElement('a');
-                const type = whiteNotification.classList.contains('hidden') ? 'green' : 'white';
-                link.download = `bank-notification-${type}-${new Date().getTime()}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            });
-        }
-        
-        // تهيئة التطبيق عند تحميل الصفحة
-        window.onload = init;
+            // تحميل كصورة
+            function downloadAsImage() {
+                const activeNotification = whiteNotification.classList.contains('hidden') ? greenNotification : whiteNotification;
+                
+                html2canvas(activeNotification).then(canvas => {
+                    const link = document.createElement('a');
+                    const type = whiteNotification.classList.contains('hidden') ? 'green' : 'white';
+                    link.download = `bank-notification-${type}-${new Date().getTime()}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                });
+            }
+        });
     </script>
 </body>
-                    </html>
+        </html>
